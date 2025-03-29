@@ -21,6 +21,12 @@ jobs:
     - name: Deploy to EC2
       run: |
         ssh -o StrictHostKeyChecking=no -i private_key.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
-          cd /path/to/your/project
+          set -e  # エラーが出たら即終了
+          sudo dnf install -y git  # Git がない場合はインストール
+          if [ ! -d "/home/ec2-user/my_project" ]; then
+            echo "ディレクトリが存在しません: /home/ec2-user/my_project"
+            exit 1
+          fi
+          cd /home/ec2-user/my_project
           git pull
-        EOF
+EOF
