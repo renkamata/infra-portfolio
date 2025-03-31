@@ -15,13 +15,15 @@ jobs:
 
     - name: Prepare SSH key
       run: |
+        # ~/.ssh ディレクトリを作成
+        mkdir -p ~/.ssh
         echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa_ec2
-        chmod 600  ~/.ssh/id_rsa_ec2
-        ls -l  ~/.ssh/id_rsa_ec2
+        chmod 600 ~/.ssh/id_rsa_ec2
+        ls -l ~/.ssh/id_rsa_ec2
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i mykeypea.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa_ec2 ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           set -e  # エラーが出たら即終了
           sudo dnf install -y git  # Git がない場合はインストール
           if [ ! -d "/home/ec2-user/my_project" ]; then
