@@ -15,12 +15,12 @@ jobs:
 
     - name: Prepare SSH key
       run: |
-        echo "${{ secrets.EC2_PRIVATE_KEY }}" > private_key.pem
-        chmod 600 private_key.pem
+        echo "${{ secrets.EC2_PRIVATE_KEY }}" > mykeypea.pem
+        chmod 600 mykeypea.pem
 
     - name: Deploy to EC2
       run: |
-        ssh -o StrictHostKeyChecking=no -i private_key.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
+        ssh -o StrictHostKeyChecking=no -i mykeypea.pem ec2-user@${{ secrets.EC2_HOST }} << 'EOF'
           set -e  # エラーが出たら即終了
           sudo dnf install -y git  # Git がない場合はインストール
           if [ ! -d "/home/ec2-user/my_project" ]; then
