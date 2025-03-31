@@ -15,9 +15,9 @@ jobs:
 
     - name: Prepare SSH key
       run: |
-        echo "${{ secrets.EC2_PRIVATE_KEY }}" > mykeypea.pem
-        chmod 600 mykeypea.pem
-        ls -l mykeypea.pem
+        echo "${{ secrets.EC2_PRIVATE_KEY }}" > ~/.ssh/id_rsa_ec2
+        chmod 600  ~/.ssh/id_rsa_ec2
+        ls -l  ~/.ssh/id_rsa_ec2
 
     - name: Deploy to EC2
       run: |
