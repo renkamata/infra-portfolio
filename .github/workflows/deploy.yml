@@ -31,6 +31,10 @@ jobs:
             mkdir -p /home/ec2-user/my_project  # ディレクトリがない場合は作成
           fi
           cd /home/ec2-user/my_project
+          if [ ! -d ".git" ]; then
+            git init
+          fi
+
           if ! git remote get-url origin &>/dev/null; then
           git remote add origin https://github.com/renkamata/infra-portfolio.git
           fi
